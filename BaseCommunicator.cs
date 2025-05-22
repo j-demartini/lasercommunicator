@@ -1,27 +1,36 @@
-﻿public class Communicator
+﻿public class BaseCommunicator
 {
 
-    public static Communicator Instance { get; private set; }
+    public static BaseCommunicator? Instance { get; private set; }
 
     private LaserCommunicator laserCommunicator;
     private ServerCommunicator serverCommunicator;
 
+
     static void Main(string[] args)
     {
-        Instance = new Communicator();
+        new BaseCommunicator();
     }
 
-    public Communicator()
+    public BaseCommunicator()
     {
+        Instance = this;
         laserCommunicator = new LaserCommunicator();
         serverCommunicator = new ServerCommunicator();
-        while (true) { Thread.Sleep(100); }
-        ;
+        while (true)
+        {}
     }
 
     public void ResetServer()
     {
+        Thread.Sleep(1000);
+        Console.WriteLine("Attempting reinitialization...");
         serverCommunicator = new ServerCommunicator();
+    }
+
+    public void ParsePacket(NetPacket packet)
+    {
+
     }
 
 }

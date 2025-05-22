@@ -1,6 +1,6 @@
 public enum Route
 {
-    COMMUNICATOR, BOARD
+    COMMUNICATOR, LASER, SERVER
 }
 
 public enum PacketType

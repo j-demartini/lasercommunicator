@@ -1,7 +1,17 @@
 public class LaserCommunicator
 {
+
+    public static LaserCommunicator? Instance { get; private set; }
+
     public LaserCommunicator()
     {
-        // Console.WriteLine("Board Communicator initialized.");
+        Instance = this;
     }
+
+    public void ParsePacket(NetPacket packet)
+    {
+        // Send it to the laser to parse
+        
+    }
+
 }
