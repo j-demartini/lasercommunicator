@@ -8,7 +8,7 @@ public class ServerCommunicator
 
     private bool activated = true;
     private DateTime lastCommunicationTime;
-    private Socket server;
+    private Socket? server;
     private Queue<NetPacket> packetQueue = new Queue<NetPacket>();
 
     public ServerCommunicator()
@@ -58,7 +58,7 @@ public class ServerCommunicator
         {
             while (packetQueue.Count > 0)
             {
-                server.Send(packetQueue.Dequeue().ByteArray);
+                server?.Send(packetQueue.Dequeue().ByteArray);
             }
         }
     }
@@ -69,7 +69,7 @@ public class ServerCommunicator
         {
             if ((DateTime.Now - lastCommunicationTime).Seconds < 4)
             {
-                if (server.Poll(10000, SelectMode.SelectRead))
+                if (server != null && server.Poll(10000, SelectMode.SelectRead))
                 {
                     byte[] data = new byte[1024];
                     int receivedByteCount = server.Receive(data);
@@ -99,7 +99,7 @@ public class ServerCommunicator
     {
         Console.WriteLine("Disconnected from the server.");
         activated = false;
-        server.Close();
+        server?.Close();
         BaseCommunicator.Instance?.ResetServer();
     }
 
@@ -115,7 +115,16 @@ public class ServerCommunicator
     public void ParsePacket(NetPacket packet)
     {
         // Send it to the server to parse
-        EnqueuePacket(packet);
+        switch ((Route)packet.ReadByte(false))
+        {
+            case Route.COMMUNICATOR:
+                BaseCommunicator.Instance?.ParsePacket(packet);
+                break;
+            case Route.LASER:
+                Console.WriteLine("Routing to laser");
+                LaserCommunicator.Instance?.ParsePacket(packet);
+                break;
+        }
     }
 
 
