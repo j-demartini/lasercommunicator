@@ -23,7 +23,9 @@ public class LaserCommunicator
         {
             if (serialPort.IsOpen)
             {
-                Console.WriteLine("Read: " + serialPort.ReadByte());
+                int b = serialPort.ReadByte();
+                if(b == 254)
+                Console.WriteLine("Read: " + b);
             }
         }
     }
