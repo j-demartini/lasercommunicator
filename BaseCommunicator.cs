@@ -99,7 +99,7 @@ public class BaseCommunicator
         p.Write(lonDegrees);
         serverCommunicator.EnqueuePacket(p);
 
-        Console.WriteLine("GPS Received: " + latDegrees + " " + lonDegrees + " | Sending packet of length: " + p.Length);
+        Console.WriteLine("GPS Received: " + latDegrees + " " + lonDegrees);
 
     }
 
