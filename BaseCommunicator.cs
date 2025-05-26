@@ -40,7 +40,7 @@ public class BaseCommunicator
     public void ReceiveGPS()
     {
         Console.WriteLine("Attempting GPS receive...");
-        SerialPort port = new SerialPort("/dev/ttyS0", 9600, Parity.None, 8, StopBits.One)
+        SerialPort port = new SerialPort("/dev/ttyAMA0", 9600, Parity.None, 8, StopBits.One)
         {
             Encoding = Encoding.ASCII,
             ReadTimeout = 1000
@@ -53,16 +53,12 @@ public class BaseCommunicator
 
             while (true)
             {
-                try
+                string line = port.ReadLine();
+                if (line.Contains("GPGLL"))
                 {
-                    string line = port.ReadLine();
-                    Console.WriteLine(line); // You should see $GPRMC, $GPGGA etc.
+                    ParseGPS(line);
                 }
-                catch (TimeoutException)
-                {
-                    // Do nothing, just wait for next line
-                }
-
+                Console.WriteLine(line); // You should see $GPRMC, $GPGGA etc.
                 Thread.Sleep(10); // Prevent CPU overuse
             }
         }
@@ -75,6 +71,30 @@ public class BaseCommunicator
             if (port.IsOpen)
                 port.Close();
         }
+    }
+
+    public void ParseGPS(string line)
+    {
+        string[] split = line.Split(',');
+        string latitudeDDM = split[1];
+        string longitudeDDM = split[3];
+
+        int latDecimal = latitudeDDM.IndexOf('.');
+        float latMinutes = float.Parse(latitudeDDM.Substring(latDecimal - 2));
+        float latDegrees = float.Parse(latitudeDDM.Substring(0, latDecimal - 2));
+        latDegrees += latMinutes / 60f;
+
+        latDegrees = split[2].Equals("N") ? latDegrees : -latDegrees;
+
+        int lonDecimal = longitudeDDM.IndexOf('.');
+        float lonMinutes = float.Parse(longitudeDDM.Substring(lonDecimal - 2));
+        float lonDegrees = float.Parse(longitudeDDM.Substring(0, lonDecimal - 2));
+        lonDegrees += lonMinutes / 60f;
+
+        lonDegrees = split[4].Equals("E") ? lonDegrees : -lonDegrees;
+
+        Console.WriteLine("GPS Received: " + latDegrees + " " + lonDegrees);
+
     }
 
 }
