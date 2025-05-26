@@ -13,7 +13,7 @@ using System.Reflection;
 [assembly: System.Reflection.AssemblyCompanyAttribute("lasercommunicator")]
 [assembly: System.Reflection.AssemblyConfigurationAttribute("Debug")]
 [assembly: System.Reflection.AssemblyFileVersionAttribute("1.0.0.0")]
-[assembly: System.Reflection.AssemblyInformationalVersionAttribute("1.0.0+21352a46a293b944bd612e306f7eb03726f90b77")]
+[assembly: System.Reflection.AssemblyInformationalVersionAttribute("1.0.0+32dd03c37f66d21267ab9357b380f1a2bc2c6c22")]
 [assembly: System.Reflection.AssemblyProductAttribute("lasercommunicator")]
 [assembly: System.Reflection.AssemblyTitleAttribute("lasercommunicator")]
 [assembly: System.Reflection.AssemblyVersionAttribute("1.0.0.0")]

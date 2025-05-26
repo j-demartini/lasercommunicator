@@ -477,4 +477,27 @@ public class NetPacket
         return value;
     }
 
+    public NetPacket[] Split()
+    {
+        if (ByteArray.Length <= 64)
+        {
+            return [this];
+        }
+        else
+        {
+            List<NetPacket> packets = new List<NetPacket>();
+            List<byte> bytes = byteList;
+            while (bytes.Count > 64)
+            {
+                NetPacket p = new NetPacket(bytes.GetRange(0, 64).ToArray());
+                packets.Add(p);
+                bytes.RemoveRange(0, 64);
+            }
+            NetPacket finalPacket = new NetPacket(bytes.ToArray());
+            packets.Add(finalPacket);
+            bytes.Clear();
+            return packets.ToArray();
+        }
+    }
+
 }

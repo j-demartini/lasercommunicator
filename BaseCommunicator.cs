@@ -1,4 +1,7 @@
-﻿public class BaseCommunicator
+﻿using System.IO.Ports;
+using System.Text;
+
+public class BaseCommunicator
 {
 
     public static BaseCommunicator? Instance { get; private set; }
@@ -17,8 +20,9 @@
         Instance = this;
         laserCommunicator = new LaserCommunicator();
         serverCommunicator = new ServerCommunicator();
+        Task.Run(ReceiveGPS);
         while (true)
-        {}
+        { }
     }
 
     public void ResetServer()
@@ -31,6 +35,24 @@
     public void ParsePacket(NetPacket packet)
     {
 
+    }
+
+    public void ReceiveGPS()
+    {
+        Console.WriteLine("Attempting GPS receive...");
+        SerialPort port = new SerialPort("/dev/ttyS0");
+        if (port.IsOpen)
+        {
+            while (true)
+            {
+                byte[] buffer = new byte[1024];
+                port.Read(buffer, 0, port.BytesToRead);
+
+                string data = Encoding.ASCII.GetString(buffer);
+                Console.WriteLine("Received: " + data);
+
+            }
+        }
     }
 
 }
