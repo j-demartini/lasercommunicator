@@ -55,11 +55,8 @@ public class BaseCommunicator
             {
                 string line = port.ReadLine();
                 if (line.Contains("GPGLL"))
-                {
                     ParseGPS(line);
-                }
-                Console.WriteLine(line); // You should see $GPRMC, $GPGGA etc.
-                Thread.Sleep(10); // Prevent CPU overuse
+                Thread.Sleep(10);
             }
         }
         catch (Exception ex)
