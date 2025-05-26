@@ -40,14 +40,17 @@ public class BaseCommunicator
     public void ReceiveGPS()
     {
         Console.WriteLine("Attempting GPS receive...");
-        SerialPort port = new SerialPort("/dev/ttyAMA0", 115200);
+        SerialPort port = new SerialPort("/dev/ttyS0", 9600);
         port.Open();
         if (port.IsOpen)
         {
             while (true)
             {
-                string s = port.ReadLine();
-                Console.WriteLine(s);
+                byte[] buffer = new byte[1024];
+                port.Read(buffer, 0, port.BytesToRead);
+
+                string data = Encoding.ASCII.GetString(buffer);
+                Console.WriteLine("Received: " + data);
             }
         }
     }
