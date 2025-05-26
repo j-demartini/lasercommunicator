@@ -93,7 +93,7 @@ public class BaseCommunicator
         Console.WriteLine("GPS Received: " + latDegrees + " " + lonDegrees);
 
         NetPacket p = new NetPacket();
-        p.Write((byte)Route.SERVER);
+        p.Write((byte)Route.SERVER_UNITY);
         p.Write((byte)PacketType.COMPLETE);
         p.Write((byte)MessageType.GPS);
         p.Write(latDegrees);
