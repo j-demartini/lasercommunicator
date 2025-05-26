@@ -10,5 +10,5 @@ public enum PacketType
 
 public enum MessageType
 {
-    GPS
+    GPS, HEARTBEAT
 }
