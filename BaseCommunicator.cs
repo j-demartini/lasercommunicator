@@ -40,7 +40,7 @@ public class BaseCommunicator
     public void ReceiveGPS()
     {
         Console.WriteLine("Attempting GPS receive...");
-        SerialPort port = new SerialPort("/dev/ttyS0", 19200);
+        SerialPort port = new SerialPort("/dev/ttyS0", 38400);
         port.Encoding = Encoding.ASCII;
         port.Open();
         if (port.IsOpen)
