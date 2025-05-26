@@ -90,7 +90,6 @@ public class BaseCommunicator
 
         lonDegrees = split[4].Equals("E") ? lonDegrees : -lonDegrees;
 
-        Console.WriteLine("GPS Received: " + latDegrees + " " + lonDegrees);
 
         NetPacket p = new NetPacket();
         p.Write((byte)Route.SERVER);
@@ -99,6 +98,8 @@ public class BaseCommunicator
         p.Write(latDegrees);
         p.Write(lonDegrees);
         serverCommunicator.EnqueuePacket(p);
+
+        Console.WriteLine("GPS Received: " + latDegrees + " " + lonDegrees + " | Sending packet of length: " + p.Length);
 
     }
 
