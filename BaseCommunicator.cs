@@ -18,8 +18,8 @@ public class BaseCommunicator
     public BaseCommunicator()
     {
         Instance = this;
-        laserCommunicator = new LaserCommunicator();
-        serverCommunicator = new ServerCommunicator();
+        //laserCommunicator = new LaserCommunicator();
+        //serverCommunicator = new ServerCommunicator();
         Task.Run(ReceiveGPS);
         while (true)
         { }
@@ -46,11 +46,15 @@ public class BaseCommunicator
         {
             while (true)
             {
-                byte[] buffer = new byte[1024];
-                port.Read(buffer, 0, port.BytesToRead);
+                if (port.BytesToRead > 0)
+                {
+                    byte[] buffer = new byte[port.BytesToRead];
+                    port.Read(buffer, 0, port.BytesToRead);
 
-                string data = Encoding.ASCII.GetString(buffer);
-                Console.WriteLine("Received: " + data);
+                    string data = Encoding.ASCII.GetString(buffer);
+                    Console.WriteLine("Received: " + data);
+                }
+                
             }
         }
     }
