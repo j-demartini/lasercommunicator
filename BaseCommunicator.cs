@@ -52,7 +52,7 @@ public class BaseCommunicator
                     port.Read(buffer, 0, port.BytesToRead);
 
                     string data = Encoding.ASCII.GetString(buffer);
-                    Console.WriteLine("Received: " + data);
+                    Console.Write("Received: " + data);
                 }
                 
             }
