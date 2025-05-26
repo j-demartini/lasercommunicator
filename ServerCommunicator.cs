@@ -121,7 +121,6 @@ public class ServerCommunicator
                 BaseCommunicator.Instance?.ParsePacket(packet);
                 break;
             case Route.LASER:
-                Console.WriteLine("Routing to laser");
                 LaserCommunicator.Instance?.ParsePacket(packet);
                 break;
         }
