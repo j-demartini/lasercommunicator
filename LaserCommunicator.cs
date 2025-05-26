@@ -35,7 +35,6 @@ public class LaserCommunicator
                 if (b == 253)
                 {
                     clear = true;
-                    Console.WriteLine("Running total: " + totalBytesSent);
                 }
             }
 
@@ -54,7 +53,6 @@ public class LaserCommunicator
                     clear = false;
                     serialPort.Write(p.ByteArray, 0, p.ByteArray.Length);
                     totalBytesSent += p.ByteArray.Length;
-                    Console.WriteLine("SENT");
                 }
             }
         }
@@ -69,7 +67,6 @@ public class LaserCommunicator
             NetPacket[] splitPacket = packet.Split();
             foreach (NetPacket p in splitPacket)
                 toSend.Enqueue(p);
-            Console.WriteLine("SPLIT AND RECEIVED:" + splitPacket.Length + " | " + splitPacket[0].ByteArray.Length);
         }
         else
         {

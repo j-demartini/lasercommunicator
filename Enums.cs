@@ -7,3 +7,8 @@ public enum PacketType
 {
     COMPLETE, PARTIAL
 }
+
+public enum MessageType
+{
+    GPS
+}

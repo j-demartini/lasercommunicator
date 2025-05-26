@@ -19,7 +19,7 @@ public class BaseCommunicator
     {
         Instance = this;
         //laserCommunicator = new LaserCommunicator();
-        //serverCommunicator = new ServerCommunicator();
+        serverCommunicator = new ServerCommunicator();
         Task.Run(ReceiveGPS);
         while (true)
         { }
@@ -91,6 +91,14 @@ public class BaseCommunicator
         lonDegrees = split[4].Equals("E") ? lonDegrees : -lonDegrees;
 
         Console.WriteLine("GPS Received: " + latDegrees + " " + lonDegrees);
+
+        NetPacket p = new NetPacket();
+        p.Write((byte)Route.SERVER);
+        p.Write((byte)PacketType.COMPLETE);
+        p.Write((byte)MessageType.GPS);
+        p.Write(latDegrees);
+        p.Write(lonDegrees);
+        serverCommunicator.EnqueuePacket(p);
 
     }
 

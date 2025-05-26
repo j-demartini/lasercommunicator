@@ -4,7 +4,7 @@ using System.Net.Sockets;
 public class ServerCommunicator
 {
 
-    private const string serverIP = "localhost";
+    private const string serverIP = "192.168.1.66";
 
     private bool activated = true;
     private DateTime lastCommunicationTime;
