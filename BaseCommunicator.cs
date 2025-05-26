@@ -40,19 +40,40 @@ public class BaseCommunicator
     public void ReceiveGPS()
     {
         Console.WriteLine("Attempting GPS receive...");
-        SerialPort port = new SerialPort("/dev/ttyS0", 9600, Parity.None, 8, StopBits.One);
-        port.Encoding = Encoding.ASCII;
-        port.Open();
-        if (port.IsOpen)
+        SerialPort port = new SerialPort("/dev/ttyS0", 9600, Parity.None, 8, StopBits.One)
         {
+            Encoding = Encoding.ASCII,
+            ReadTimeout = 1000
+        };
+
+        try
+        {
+            port.Open();
+            Console.WriteLine("GPS port opened.");
+
             while (true)
             {
-                if (port.BytesToRead > 0)
+                try
                 {
-                    Console.WriteLine(port.ReadLine());
+                    string line = port.ReadLine();
+                    Console.WriteLine(line); // You should see $GPRMC, $GPGGA etc.
                 }
-                
+                catch (TimeoutException)
+                {
+                    // Do nothing, just wait for next line
+                }
+
+                Thread.Sleep(10); // Prevent CPU overuse
             }
+        }
+        catch (Exception ex)
+        {
+            Console.WriteLine($"Error: {ex.Message}");
+        }
+        finally
+        {
+            if (port.IsOpen)
+                port.Close();
         }
     }
 
